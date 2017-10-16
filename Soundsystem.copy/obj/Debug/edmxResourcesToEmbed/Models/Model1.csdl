@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="soundsystemsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="soundsystemsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="soundsystemsModel.Category" />
+    <EntitySet Name="customers" EntityType="soundsystemsModel.customer" />
+    <EntitySet Name="Order_Product" EntityType="soundsystemsModel.Order_Product" />
+    <EntitySet Name="Products" EntityType="soundsystemsModel.Product" />
+    <EntitySet Name="userdatas" EntityType="soundsystemsModel.userdata" />
+    <AssociationSet Name="FK_Product_Product" Association="soundsystemsModel.FK_Product_Product">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Qty" Type="Int32" />
+    <NavigationProperty Name="Products" Relationship="soundsystemsModel.FK_Product_Product" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="orderno" />
+    </Key>
+    <Property Name="fname" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="sname" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="email" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="address" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="city" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="province" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="info" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="mobile" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="orderno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="status" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Order_Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Orderno" Type="Int32" Nullable="false" />
+    <Property Name="Product_id" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Quanitiy" Type="Int32" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="unitprice" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_id" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="180" Unicode="false" FixedLength="false" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="Product_id" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Category" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Category1" Relationship="soundsystemsModel.FK_Product_Product" FromRole="Product" ToRole="Category" />
+  </EntityType>
+  <EntityType Name="userdata">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Product_Product">
+    <End Role="Category" Type="soundsystemsModel.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="soundsystemsModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
